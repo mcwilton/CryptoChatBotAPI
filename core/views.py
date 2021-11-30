@@ -1,4 +1,9 @@
+import datetime
+
 from alphavantage.price_history import API_KEY
+from django.http.response import HttpResponse
+from django.shortcuts import render
+from django.template import loader
 from rest_framework.generics import ListAPIView
 from core.serializers import CurrencySerializer, CategorySerializer, SentimentSerializer
 from core.models import Currency, Category
@@ -36,19 +41,35 @@ def get_sentiment_data(request):
     # print(data)
     sentiment = data[-1]
 
-    for i in sentiment:
-        sentiment_data = SentimentData(
-            rate=i['rate'],
-            count=i['count'],
-            median=i['median'],
-            mean=i['mean'],
-            polarity=i['polarity'],
-            sum=i['sum'],
-            btc_price=i['btc_price'],
-            date_time=i['date_time']
-        )
-        sentiment_data.save()
-        all_sentiment_data = SentimentData.objects.all().order_by('-id')
+    template = loader.get_template('index.html')
+    context = {
+        'latest_question_list': sentiment,
+    }
+    return HttpResponse(template.render(context, request))
+    # return render(request, 'index.html', sentiment)
+
+    # for i in sentiment:
+    #     sentiment_data = SentimentData(
+    #         rate=i[float('rate')],
+    #         count=i['count'],
+    #         median=i['median'],
+    #         mean=i['mean'],
+    #         polarity=i['polarity'],
+    #         sum=i['sum'],
+    #         btc_price=i['btc_price'],
+    #         date_time=i['date_time']
+    #     )
+    #     sentiment_data.save()
+    #     all_sentiment_data = SentimentData.objects.all().order_by('-id')
+        # html = "<html><body> It is now %s.</body></html>"% all_sentiment_data
+
+        # return HttpResponse()
+
+
+def index(request):
+    now = datetime.datetime.now()
+    html = "<html><body> It is now %s.</body></html>" % now
+    return HttpResponse(html)
 
 
 class SentimentModelViewSet(ModelViewSet):

@@ -2,15 +2,12 @@ from django.db import models
 import datetime
 
 
-
-
 class SentimentData(models.Model):
     comment = models.CharField(max_length=100, null=True, blank=True)
     rate = models.FloatField()
     count = models.IntegerField(null=True)
     median = models.FloatField()
     mean = models.FloatField()
-    polarity = models.FloatField()
     sum = models.FloatField(null=True)
     btc_price = models.FloatField()
     date_time = models.DateTimeField(datetime.datetime.now())

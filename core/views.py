@@ -29,14 +29,10 @@ converted_result = convert_currencies.json()
 user_base_choice = requests.get('https://metals-api.com/api/latest?access_key =' + access_key + '& base = USD')
 user_base_choice_result = user_base_choice.json()
 
-# account_sid = 'AC92d67cecd7a034d3fb8bb2abaccb29a5'
-# auth_token = 'a40e3e2a5a7ac9d5a6e8051d28218b98'
-# client = Client(account_sid, auth_token)
 
 result = requests.get('https://api.senticrypt.com/v1/bitcoin.json')
 get_sentiment = result.json()
 mean_sentiment = get_sentiment[-1]['mean']
-# polarity_sentiment = get_sentiment[-1]['polarity']
 median_sentiment = get_sentiment[-1]['median']
 rate = get_sentiment[-1]['rate']
 if median_sentiment > mean_sentiment and rate > 1:
@@ -46,36 +42,30 @@ else:
 
 
 def get_sentiment_data(request):
-    # all_data = {}
-    url = 'https://api.senticrypt.com/v1/bitcoin.json'
-    response = requests.get(url)
-    data = response.json()
-    # print(data)
-    sentiment = data[-1]
-
-    template = loader.get_template('index.html')
-    context = {
-        'latest_question_list': sentiment,
-    }
-    return HttpResponse(template.render(context, request))
-    # return render(request, 'index.html', sentiment)
-
-    # for i in sentiment:
-    #     sentiment_data = SentimentData(
-    #         rate=i[float('rate')],
-    #         count=i['count'],
-    #         median=i['median'],
-    #         mean=i['mean'],
-    #         ####################polarity=i['polarity'],
-    #         sum=i['sum'],
-    #         btc_price=i['btc_price'],
-    #         date_time=i['date_time']
-    #     )
-    #     sentiment_data.save()
-    #     all_sentiment_data = SentimentData.objects.all().order_by('-id')
-    # html = "<html><body> It is now %s.</body></html>"% all_sentiment_data
-
-    # return HttpResponse()
+    pass
+#     # all_data = {}
+#     url = 'https://api.senticrypt.com/v1/bitcoin.json'
+#     response = requests.get(url)
+#     data = response.json()
+#     # print(data)
+#     sentiment = data[-1]
+#
+#     for i in sentiment:
+#         sentiment_data = SentimentData(
+#             rate=i[float('rate')],
+#             count=i['count'],
+#             median=i['median'],
+#             mean=i['mean'],
+#             ####################polarity=i['polarity'],
+#             sum=i['sum'],
+#             btc_price=i['btc_price'],
+#             date_time=i['date_time']
+#         )
+#         sentiment_data.save()
+#         all_sentiment_data = SentimentData.objects.all().order_by('-id')
+#     # html = "<html><body> It is now %s.</body></html>"% all_sentiment_data
+#
+#     # return HttpResponse()
 
 
 def index(request):
@@ -114,4 +104,4 @@ def broadcast_sms(request):
                                    # from_='+16106461582',
                                    from_=settings.TWILIO_NUMBER,
                                    body=message_to_broadcast)
-    return HttpResponse("messages sent!", 200)
+    return HttpResponse("messages sent to: ", recipient, 200)

@@ -6,7 +6,7 @@ from core.models import Currency, Category, SentimentData
 class SentimentSerializer(serializers.ModelSerializer):
     class Meta:
         model = SentimentData
-        fields = ("id", "rate", "polarity", "mean", "median", "date_time", "btc_price")
+        fields = ("id", "rate", "count", "mean", "median", "sum", "date_time", "btc_price", "comment")
 
 
 class CurrencySerializer(serializers.ModelSerializer):

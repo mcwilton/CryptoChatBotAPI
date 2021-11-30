@@ -1,9 +1,24 @@
+from alphavantage.price_history import API_KEY
 from rest_framework.generics import ListAPIView
-from core.serializers import CurrencySerializer, CategorySerializer
+from core.serializers import CurrencySerializer, CategorySerializer, SentimentSerializer
 from core.models import Currency, Category
 from rest_framework.viewsets import ModelViewSet
 import requests
 from .models import SentimentData
+import ccxt
+
+base_currency = 'USD'
+symbol = 'XAU'
+endpoint = 'latest'
+access_key = '2m95urdhuj4wpwilv2hwv1gz365j8s543y9uysw23zy7y2r8uycsi6va4z99'
+get_gold_price = requests.get(
+    'https://metals-api.com/api/' + endpoint + '?access_key=' + access_key + '&base=' + base_currency + '&symbols=' + symbol)
+latest_gold_price = get_gold_price.json()
+convert_currencies = requests.get(
+    'https://metals-api.com/api/convert?access_key = ' + access_key + '& from = GBP& to = JPY&amount = 25')
+converted_result = convert_currencies.json()
+user_base_choice = requests.get('https://metals-api.com/api/latest?access_key =' + access_key+'& base = USD')
+user_base_choice_result = user_base_choice.json()
 
 
 def get_sentiment_data(request):
@@ -22,11 +37,16 @@ def get_sentiment_data(request):
             mean=i['mean'],
             polarity=i['polarity'],
             sum=i['sum'],
-            bitcoin_price=i['bitcoin_price'],
-            date_time=i['date_time'],
+            btc_price=i['btc_price'],
+            date_time=i['date_time']
         )
         sentiment_data.save()
         all_sentiment_data = SentimentData.objects.all().order_by('-id')
+
+
+class SentimentModelViewSet(ModelViewSet):
+    queryset = SentimentData.objects.all()
+    serializer_class = SentimentSerializer
 
 
 class CurrencyListAPIView(ListAPIView):

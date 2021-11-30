@@ -1,6 +1,6 @@
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from core import views
 from rest_framework import routers
 
@@ -11,5 +11,6 @@ router.register(r'sentiment', views.SentimentModelViewSet, basename="sentiment")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('currencies/', views.CurrencyListAPIView.as_view(), name="currencies")
+    path('currencies/', views.CurrencyListAPIView.as_view(), name="currencies"),
+    path('', include('core.urls')),
 ] + router.urls

@@ -25,15 +25,15 @@ SECRET_KEY = 'django-insecure-c9(t93)!@ruv&!w1vc_^x44ucx!2@sag^_*utzarjcuay(0le(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-TWILIO_ACCOUNT_SID = 'AC92d67cecd7a034d3fb8bb2abaccb29a5' # os.getenv("TWILIO_ACCOUNT_SID")
-TWILIO_AUTH_TOKEN = 'a40e3e2a5a7ac9d5a6e8051d28218b98' # os.getenv("TWILIO_AUTH_TOKEN")
+TWILIO_ACCOUNT_SID = 'AC92d67cecd7a034d3fb8bb2abaccb29a5'  # os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = '27fe96c94aa0eb06afef89370c7d2807'  # os.getenv("TWILIO_AUTH_TOKEN")
 
-TWILIO_NUMBER = os.getenv("TWILIO_NUMBER")
+TWILIO_NUMBER = '+16106461582'  # os.getenv("TWILIO_NUMBER")
 SMS_BROADCAST_TO_NUMBERS = [
+    "+27785922313",
     "+27613517328",
-    "",
     "",
 ]
 
@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

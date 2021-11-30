@@ -1,5 +1,6 @@
 import datetime
-
+from chatbot.views import rates, kraken, kraken_price, bittrex, bittrex_price, hilow, check_usd_bitcoin_value, \
+    all_prices_loop
 from alphavantage.price_history import API_KEY
 from django.http.response import HttpResponse
 from django.shortcuts import render
@@ -28,9 +29,20 @@ converted_result = convert_currencies.json()
 user_base_choice = requests.get('https://metals-api.com/api/latest?access_key =' + access_key + '& base = USD')
 user_base_choice_result = user_base_choice.json()
 
-account_sid = 'AC92d67cecd7a034d3fb8bb2abaccb29a5'
-auth_token = 'a40e3e2a5a7ac9d5a6e8051d28218b98'
-client = Client(account_sid, auth_token)
+# account_sid = 'AC92d67cecd7a034d3fb8bb2abaccb29a5'
+# auth_token = 'a40e3e2a5a7ac9d5a6e8051d28218b98'
+# client = Client(account_sid, auth_token)
+
+result = requests.get('https://api.senticrypt.com/v1/bitcoin.json')
+get_sentiment = result.json()
+mean_sentiment = get_sentiment[-1]['mean']
+# polarity_sentiment = get_sentiment[-1]['polarity']
+median_sentiment = get_sentiment[-1]['median']
+rate = get_sentiment[-1]['rate']
+if median_sentiment > mean_sentiment and rate > 1:
+    message = 'The Sentiment is Positive. Buy Bitcoin'
+else:
+    message = 'The Sentiment is Negative. Sell Bitcoin'
 
 
 def get_sentiment_data(request):
@@ -54,22 +66,26 @@ def get_sentiment_data(request):
     #         count=i['count'],
     #         median=i['median'],
     #         mean=i['mean'],
-    #         polarity=i['polarity'],
+    #         ####################polarity=i['polarity'],
     #         sum=i['sum'],
     #         btc_price=i['btc_price'],
     #         date_time=i['date_time']
     #     )
     #     sentiment_data.save()
     #     all_sentiment_data = SentimentData.objects.all().order_by('-id')
-        # html = "<html><body> It is now %s.</body></html>"% all_sentiment_data
+    # html = "<html><body> It is now %s.</body></html>"% all_sentiment_data
 
-        # return HttpResponse()
+    # return HttpResponse()
 
 
 def index(request):
-    now = datetime.datetime.now()
-    html = "<html><body> It is now %s.</body></html>" % now
-    return HttpResponse(html)
+
+    return render(request, "index.html", {
+        "sell_bitcoin_thresh": 102000,
+        "bitcoin_price": bittrex_price,
+        "sentiment": mean_sentiment,
+        "sentiment_message": message,
+    })
 
 
 class SentimentModelViewSet(ModelViewSet):
@@ -88,12 +104,14 @@ class CategoryModelViewSet(ModelViewSet):
 
 
 def broadcast_sms(request):
-    message_to_broadcast = ("Have you played the incredible TwilioQuest "
-                            "yet? Grab it here: https://www.twilio.com/quest")
-    # client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+    message_to_broadcast = (f"This is your daily Bitcoin Sentiment Message. {message}. "
+                            f"The rate is @ {rate} and the mean is @ {mean_sentiment}")
+    client = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
     for recipient in settings.SMS_BROADCAST_TO_NUMBERS:
         if recipient:
             client.messages.create(to=recipient,
-                                   messaging_service_sid='MG17ddcf9a439835d83e589a8f3275c5e7',
+                                   # messaging_service_sid='MG17ddcf9a439835d83e589a8f3275c5e7',
+                                   # from_='+16106461582',
+                                   from_=settings.TWILIO_NUMBER,
                                    body=message_to_broadcast)
     return HttpResponse("messages sent!", 200)

@@ -101,17 +101,17 @@ Select a number like 1 or type a word like 'bitcoin'
             msg.body(str(reply))
             responded = True
 
-        elif incoming_msg == '3':
-            reply = cryptocompare.get_price(['BTC'], ['ZAR', 'NGN', 'KES', 'GHC', 'TZS'])
-            msg.body(str((f"Bitcoin to top 5 African countries \n"
-                          f"\n"
-                          f"BTC to SA Rand is R{reply['BTC']['ZAR']} \n"
-                          f"BTC to Ng Naira is N{reply['BTC']['NGN']} \n"
-                          f"BTC to Gh Shillings is G{reply['BTC']['GHC']} \n"
-                          f"BTC to Ky Shillings is K{reply['BTC']['KES']} \n"
-                          f"BTC to Tz Shillings is T{reply['BTC']['TZS']} \n"
-                          )))
-            responded = True
+        # elif incoming_msg == '3':
+        #     reply = cryptocompare.get_price(['BTC'], ['ZAR', 'NGN', 'KES', 'GHC', 'TZS'])
+        #     msg.body(str((f"Bitcoin to top 5 African countries \n"
+        #                   f"\n"
+        #                   f"BTC to SA Rand is R{reply['BTC']['ZAR']} \n"
+        #                   f"BTC to Ng Naira is N{reply['BTC']['NGN']} \n"
+        #                   f"BTC to Gh Shillings is G{reply['BTC']['GHC']} \n"
+        #                   f"BTC to Ky Shillings is K{reply['BTC']['KES']} \n"
+        #                   f"BTC to Tz Shillings is T{reply['BTC']['TZS']} \n"
+        #                   )))
+        #     responded = True
 
         # convert 5000 usd to bitcoin
         elif 'convert' in incoming_msg:

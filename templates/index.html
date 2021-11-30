@@ -5,12 +5,21 @@
     <title>CryptoHome</title>
 </head>
 <body>
-{{ sentiment.rate }}
 
-{% for i in sentiment %}
-{{ i.rate }}
-<h1>i</h1>
-{% endfor %}
+ <h1>Bitcoins</h1>
+    <h3> {{sell_bitcoin_thresh}}
+        <br>
+        {{bitcoin_price}}
+        <br>
+        The sentiment is vvv {{sentiment}}. {{sentiment_message | title}}
+    </h3>
+
+        {% if sentiment > 0.25 %}
+        SELL ALLTHE Bitcoins
+        {% endif %}
+        <h1>threshhold is {{sell_bitcoin_thresh}}</h1>
+        <h1>The bitcoin price is now {{bitcoin_price}}</h1>
+
 
 </body>
 </html>

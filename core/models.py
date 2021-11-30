@@ -1,4 +1,19 @@
 from django.db import models
+import datetime
+
+
+class SentimentData(models.Model):
+    rate = models.FloatField()
+    count = models.IntegerField()
+    median = models.FloatField()
+    mean = models.FloatField()
+    polarity = models.FloatField()
+    sum = models.FloatField()
+    bitcoin_price = models.FloatField()
+    date_time = models.DateTimeField(datetime.datetime.now())
+
+    def __str__(self):
+        return self.name
 
 
 class Currency(models.Model):

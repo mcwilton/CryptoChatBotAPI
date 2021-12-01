@@ -6,8 +6,8 @@ from rest_framework import routers
 
 router = routers.SimpleRouter()
 
-router.register(r'categories', views.CategoryModelViewSet, basename="category")
-router.register(r'sentiment', views.SentimentModelViewSet, basename="sentiment")
+router.register(r'categories_api', views.CategoryModelViewSet, basename="category")
+router.register(r'sentiment_api', views.SentimentModelViewSet, basename="sentiment")
 
 urlpatterns = [
     path('admin/', admin.site.urls),

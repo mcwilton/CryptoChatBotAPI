@@ -15,10 +15,18 @@
     </h3>
 
         {% if sentiment > 0.25 %}
-        SELL ALLTHE Bitcoins
+        SELL ALL THE Bitcoins
         {% endif %}
-        <h1>threshhold is {{sell_bitcoin_thresh}}</h1>
+        <h1>threshold is {{sell_bitcoin_thresh}}</h1>
         <h1>The bitcoin price is now {{bitcoin_price}}</h1>
+        <h1>The arbitrage signal is: {{ arbitrage_signal }}</h1>
+ <h1>Latest gold price is {{ latest_rates }}</h1>
+{{ latest_unit }}
+ {{ latest_rate }}
+ {{ latest_gold_price_rate_ounce_base }}
+
+ <br>
+
 
 
 </body>

@@ -12,8 +12,8 @@ class SentimentData(models.Model):
     btc_price = models.FloatField()
     date_time = models.DateTimeField(datetime.datetime.now())
 
-    # def __str__(self):
-    #     return self.comment
+    def __str__(self):
+        return self.comment
 
 
 class Currency(models.Model):
